@@ -76,6 +76,81 @@ set color_directcolor = yes
 source /path/to/duotone/duotone.neomuttrc
 ```
 
+### Meadow (`meadow/`)
+
+A duotone theme featuring a slate-blue background with bright lime green and green accents, based on [Base2Tone Meadow Dark](https://github.com/atelierbram/Base2Tone-kitty) by Bram de Haan.
+
+- Slate-blue background with layered green/lime accents
+- Lime accent for unread, expired, and high-priority states
+- Full styling for all NeoMutt UI elements (index, sidebar, headers, compose view)
+- Two versions available:
+  - **256-color** - Works in most terminals
+  - **True color** - Uses exact hex values for terminals with 24-bit color support
+
+#### Color Palette
+
+| Color           | Hex       | Usage                          |
+|-----------------|-----------|--------------------------------|
+| Slate blue (bg) | `#192834` | Background                     |
+| Selection       | `#223644` | Collapsed-thread highlight     |
+| Border          | `#466b86` | Tildes, dividers               |
+| Foreground      | `#7b9eb7` | Normal text, "From" header     |
+| Dim slate       | `#3d5e76` | Replied, signatures, comments  |
+| Light blue      | `#afddfe` | New messages, subjects         |
+| Blue            | `#4299d7` | Old messages, primary quoted   |
+| Green           | `#80bf40` | Messages to me, "To" header    |
+| Bright green    | `#8cdd3c` | Flagged, indicator, markers    |
+| Lime            | `#a6f655` | Unread, expired, "Date" header |
+| White           | `#fafbf9` | Status bar, bold/underline     |
+
+#### Installation
+
+**256-color version** - add to your `neomuttrc`:
+
+```neomuttrc
+source /path/to/meadow/meadow-256.neomuttrc
+```
+
+**True color version** - requires a terminal with 24-bit color support:
+
+```neomuttrc
+set color_directcolor = yes
+source /path/to/meadow/meadow.neomuttrc
+```
+
+### GitHub Light (`github-light/`)
+
+A light theme matching the GitHub website's light mode, based on [github-nvim-theme](https://github.com/projekt0n/github-nvim-theme) by projekt0n.
+
+- True color only (requires 24-bit color support)
+- White background with GitHub-style blue/green/red accents
+- Full styling for all NeoMutt UI elements
+
+#### Color Palette
+
+| Color           | Hex       | Usage                          |
+|-----------------|-----------|--------------------------------|
+| White (bg)      | `#ffffff` | Background                     |
+| Subtle bg       | `#f6f8fa` | Status bar, markers            |
+| Foreground      | `#1f2328` | Normal text                    |
+| Comment         | `#6e7781` | Read messages, signatures      |
+| Blue            | `#0969da` | New/unread, subjects, indicator|
+| Green           | `#1a7f37` | Messages to me, "To" header    |
+| Yellow          | `#9a6700` | Expired, "Date", emoticons     |
+| Orange          | `#e8590c` | URLs                           |
+| Red             | `#cf222e` | Flagged, deleted, errors       |
+| Purple          | `#8250df` | Replied messages               |
+| Selection       | `#add6ff` | Search highlight, sidebar      |
+
+#### Installation
+
+Requires a terminal with 24-bit color support. Add to your `neomuttrc`:
+
+```neomuttrc
+set color_directcolor = yes
+source /path/to/github-light/github-light.neomuttrc
+```
+
 ## Testing
 
 Test a color scheme without modifying your config:
@@ -88,6 +163,8 @@ neomutt -F /path/to/yaru/mutt-colors-ubuntu-yaru-256.neomuttrc
 
 - Yaru scheme based on [yaru.nvim](https://github.com/simoneSantoni/yaru.nvim) by Simone Santoni.
 - Duotone scheme based on [Base2Tone-kitty](https://github.com/atelierbram/Base2Tone-kitty) by Bram de Haan.
+- Meadow scheme based on [Base2Tone-kitty](https://github.com/atelierbram/Base2Tone-kitty) by Bram de Haan.
+- GitHub Light scheme based on [github-nvim-theme](https://github.com/projekt0n/github-nvim-theme) by projekt0n.
 
 ## License
 

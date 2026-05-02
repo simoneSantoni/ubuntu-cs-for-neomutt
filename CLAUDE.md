@@ -4,59 +4,66 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This repository contains multiple NeoMutt color schemes. NeoMutt is a command-line email client.
+A collection of NeoMutt color schemes. NeoMutt is a terminal email client; each scheme is a standalone `.neomuttrc` fragment that the user `source`s from their main config.
 
-## File Structure
+## Repository Structure
 
-Each color scheme lives in its own subdirectory:
+One subdirectory per scheme (`yaru/`, `duotone/`, `meadow/`, `github-light/`). Most schemes ship two variants:
 
-- `yaru/` - Ubuntu Yaru-inspired color scheme (eggplant/aubergine tones)
-  - `mutt-colors-ubuntu-yaru-256.neomuttrc` - 256-color mode with hex backgrounds
-  - `mutt-colors-ubuntu-yaru-truecolor.neomuttrc` - True color (24-bit) hex values throughout
-- `duotone/` - Duotone color scheme (teal/turquoise with bright field green)
-  - `duotone.neomuttrc` - True color (24-bit) duotone theme based on Base2Tone Field Dark
+- **Truecolor** — uses 24-bit hex values (e.g. `#192834`). Requires `set color_directcolor = yes` in the user's `neomuttrc` before sourcing.
+- **256-color** — uses indexed `colorNNN` values as a fallback for terminals without 24-bit support.
 
-## Ubuntu-Yaru Color Palette
+File naming is **not** consistent across schemes:
 
-| Color Name      | Hex Value | 256-color Approx |
-|-----------------|-----------|------------------|
-| bg (eggplant)   | #2C001E   | -                |
-| bg_alt          | #3B1028   | -                |
-| fg              | #F6F5F4   | color255         |
-| fg_dim          | #D5CFCA   | color251         |
-| comment         | #B7A7B4   | color249         |
-| orange          | #E95420   | color202         |
-| aubergine       | #772953   | color89          |
-| aubergine_dark  | #5E2750   | -                |
-| gold            | #F99B15   | color214         |
-| green           | #26A269   | color35          |
-| teal            | #19B6EE   | color39          |
-| red             | #C7162B   | color160         |
-| border          | #4A1D33   | color89          |
-| selection       | #3D1E2F   | -                |
+- `meadow/` uses `meadow.neomuttrc` (truecolor) and `meadow-256.neomuttrc` (256). This is the preferred pattern for new schemes.
+- `yaru/` uses `mutt-colors-ubuntu-yaru-truecolor.neomuttrc` and `mutt-colors-ubuntu-yaru-256.neomuttrc` (legacy).
+- `duotone/` and `github-light/` ship a single truecolor file only.
 
-## NeoMutt Color Scheme Syntax
+When adding a new scheme, also update `README.md` (palette table + installation snippet).
+
+## NeoMutt Color Syntax
 
 ```
 color <object> <foreground> <background> [<pattern>]
 ```
 
-Key objects styled: `normal`, `error`, `status`, `indicator`, `tree`, `sidebar_*`, `index`, `header`, `hdrdefault`, `quoted`, `quoted1-4`, `body`, `compose`.
+Common objects: `normal`, `error`, `status`, `indicator`, `tree`, `sidebar_*`, `index`, `header`, `hdrdefault`, `quoted`, `quoted1-4`, `body`, `compose`, `attachment`, `signature`.
+
+`mono` rules (e.g. `mono bold bold`) provide a fallback for monochrome terminals and should be preserved when editing.
+
+### Index pattern coloring
+
+Most per-message styling lives on `color index` lines whose final argument is a NeoMutt search pattern. Knowing these is essential when the user asks to recolor a message state:
+
+| Pattern    | Meaning                                  |
+|------------|------------------------------------------|
+| `~A`       | all messages (default)                   |
+| `~N`       | new messages                             |
+| `~O`       | old messages                             |
+| `~U`       | unread messages                          |
+| `~U~$`     | unread, unreferenced                     |
+| `~R`       | read messages                            |
+| `~Q`       | replied to                               |
+| `~F`       | flagged                                  |
+| `~D`       | deleted                                  |
+| `~E`       | expired                                  |
+| `~P`       | from me                                  |
+| `~p`       | to me                                    |
+| `~v`       | inside a collapsed thread                |
+| `~v~(...)` | collapsed thread containing matches      |
+
+Patterns combine (e.g. `~N~F~p` = new flagged messages to me). Order in the file matters — later rules override earlier ones for the same message.
+
+## Editing Conventions
+
+- When changing a color across a scheme, edit **both** the truecolor and 256-color files in lockstep so the variants stay visually equivalent. Each 256 file has a hex→`colorNNN` mapping table in its header comment — use it.
+- Keep the palette comment block at the top of each truecolor file in sync with the actual values used below it.
+- Do not introduce new colors without adding them to the header palette comment.
 
 ## Testing
 
-Source in neomuttrc:
-```
-source /path/to/yaru/mutt-colors-ubuntu-yaru-256.neomuttrc
-```
-
-For true color version, first enable direct color:
-```
-set color_directcolor = yes
-source /path/to/yaru/mutt-colors-ubuntu-yaru-truecolor.neomuttrc
+```bash
+neomutt -F /path/to/<scheme>/<file>.neomuttrc
 ```
 
-Or run directly:
-```
-neomutt -F /path/to/yaru/mutt-colors-ubuntu-yaru-256.neomuttrc
-```
+This launches NeoMutt with only the scheme's rules, bypassing the user's main config — useful for verifying a change in isolation.
